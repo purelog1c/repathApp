@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">repathApp</string>
     <string name="createDataBtnTEST">TestDataInsert</string>
+    <string name="e_mail_address_input">E-mail address</string>
+    <string name="password_input">Password</string>
+    <string name="loginButton">Login</string>
 </resources>
