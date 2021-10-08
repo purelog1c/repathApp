@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">repathApp</string>
+    <string name="createDataBtnTEST">TestDataInsert</string>
+</resources>

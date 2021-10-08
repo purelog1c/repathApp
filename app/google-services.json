@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "99816672798",
+    "project_id": "repath-22a13",
+    "storage_bucket": "repath-22a13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99816672798:android:695079da0dce330522e80f",
+        "android_client_info": {
+          "package_name": "com.company.repath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQsXbGl9XG11kao7zCAdru5h1XMzYlgBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99816672798:android:a653c459461cce2122e80f",
+        "android_client_info": {
+          "package_name": "com.company.repathapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQsXbGl9XG11kao7zCAdru5h1XMzYlgBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
