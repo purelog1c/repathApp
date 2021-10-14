@@ -1,5 +1,6 @@
 package com.company.repathapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -17,36 +18,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val writeDataDB = DBConnect()
-        val loginBtn: Button = findViewById(R.id.loginButton)
 
+        //UI Initialization
+        val loginBtn: Button = findViewById(R.id.loginButton)
+        val signUpBtn: Button = findViewById(R.id.signUpButton)
         val emailText: EditText = findViewById(R.id.emailText)
 
+        //Login Button Initialization
+        loginBtn.isClickable = false;
+        loginBtn.setTextColor(Color.parseColor("#B2B2B2"))
+        loginBtn.setBackgroundColor(Color.parseColor("#686868"))
 
-        fun isValidEmail(email: String): Boolean {
-            return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        }
-
-        fun String.isValidEmail() =
-            !TextUtils.isEmpty(this) && Patterns.EMAIL_ADDRESS.matcher(this).matches()
-
-
-
+        // Attributes of Email Field
         emailText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(!isValidEmail(emailText.text.toString())){
-                    emailText.setTextColor(Color.parseColor("red"))
+                if(!isValidEmailInput(emailText)){
                     loginBtn.isClickable = false;
                     loginBtn.setTextColor(Color.parseColor("#B2B2B2"))
                     loginBtn.setBackgroundColor(Color.parseColor("#686868"))
-
-                }
-                else{
-                    emailText.setTextColor(Color.parseColor("#757575"))
+                }else{
                     loginBtn.setTextColor(Color.parseColor("#FFFFFF"))
                     loginBtn.setBackgroundColor(Color.parseColor("#6200EE"))
                     loginBtn.isClickable = true;
@@ -54,9 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        loginBtn.isClickable = false;
-        loginBtn.setTextColor(Color.parseColor("#B2B2B2"))
-        loginBtn.setBackgroundColor(Color.parseColor("#686868"))
+
 
 
             //GIVE ERROR MESSAGE WHEN FOCUS IS OFF
@@ -68,10 +60,9 @@ class MainActivity : AppCompatActivity() {
             }
         }*/
 
-
-
-
-        loginBtn.setOnClickListener {
+        signUpBtn.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -80,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         val btnDataWrite: Button = findViewById<Button>(R.id.createData)
 
         btnDataWrite.setOnClickListener {
-            writeDataDB.setDocument()
         }
         // TESTING FINISHED
 
