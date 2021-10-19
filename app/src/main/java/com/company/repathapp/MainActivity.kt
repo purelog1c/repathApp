@@ -1,19 +1,22 @@
 package com.company.repathapp
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.company.repathapp.Interface.LoginResultCallBacks
 import com.company.repathapp.databinding.ActivityMainBinding
+import com.company.repathapp.viewmodel.LoginViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LoginResultCallBacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val activityMainBinding = DataBindingUtil.inflate<ActivityMainBinding>(getLayoutInflater(), R.layout.activity_main, null, false)
-        setContentView(activityMainBinding.root)
 
 
+        val loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
 /*        //UI Initialization
         val loginBtn: Button = findViewById(R.id.loginButton)
@@ -71,5 +74,13 @@ class MainActivity : AppCompatActivity() {
         // TESTING FINISHED*/
 
 
+    }
+
+    override fun onSuccess(message: String) {
+        Toast.makeText(this,"Success!",Toast.LENGTH_SHORT)
+    }
+
+    override fun onError(message: String) {
+        Toast.makeText(this,"Error!",Toast.LENGTH_SHORT)
     }
 }

@@ -3,11 +3,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.ViewModel
 import com.company.repathapp.Interface.LoginResultCallBacks
 import com.company.repathapp.model.User
 
 
-class LoginViewModel(private val listener : LoginResultCallBacks ) {
+class LoginViewModel(private val listener : LoginResultCallBacks ) :ViewModel() {
 
     private val user:User = User("","")
 
