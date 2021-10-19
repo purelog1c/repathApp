@@ -1,25 +1,21 @@
 package com.company.repathapp
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
-import android.util.Log
-import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.company.repathapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val activityMainBinding = DataBindingUtil.inflate<ActivityMainBinding>(getLayoutInflater(), R.layout.activity_main, null, false)
+        setContentView(activityMainBinding.root)
 
 
-        //UI Initialization
+
+/*        //UI Initialization
         val loginBtn: Button = findViewById(R.id.loginButton)
         val signUpBtn: Button = findViewById(R.id.signUpButton)
         val emailText: EditText = findViewById(R.id.emailText)
@@ -53,12 +49,12 @@ class MainActivity : AppCompatActivity() {
 
             //GIVE ERROR MESSAGE WHEN FOCUS IS OFF
 
-/*        emailText.setOnFocusChangeListener { view, b ->
+*//*        emailText.setOnFocusChangeListener { view, b ->
             if(!b) {
                 emailText.setTextColor(Color.parseColor("red"))
                 Log.i("IS it Valid ", "" + isValidEmail(emailText.text.toString()))
             }
-        }*/
+        }*//*
 
         signUpBtn.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -72,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         btnDataWrite.setOnClickListener {
         }
-        // TESTING FINISHED
+        // TESTING FINISHED*/
 
 
     }
