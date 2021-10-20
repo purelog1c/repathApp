@@ -13,6 +13,8 @@ import com.company.repathapp.viewmodel.LoginViewModelFactory
 
 
 class MainActivity : AppCompatActivity(), LoginResultCallBacks {
+
+
     override fun onSuccess(message: String) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
     }

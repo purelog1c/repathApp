@@ -1,13 +1,22 @@
 package com.company.repathapp.viewmodel
 
+import android.content.ClipData
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Patterns
+import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
+import androidx.core.graphics.toColorInt
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModel
 import com.company.repathapp.Interface.LoginResultCallBacks
 import com.company.repathapp.model.User
 
-class LoginViewModel(private val listener: LoginResultCallBacks): ViewModel(){
+class LoginViewModel(private val listener: LoginResultCallBacks): ViewModel() {
     private val user:User = User("","")
 
 
@@ -15,7 +24,10 @@ class LoginViewModel(private val listener: LoginResultCallBacks): ViewModel(){
     val emailTextWatcher: TextWatcher
         get()= object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                user .setEmail(s.toString())
+                user.setEmail(s.toString())
+
+
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -23,6 +35,7 @@ class LoginViewModel(private val listener: LoginResultCallBacks): ViewModel(){
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                user.onEmailInput()
 
             }
 
@@ -33,7 +46,8 @@ class LoginViewModel(private val listener: LoginResultCallBacks): ViewModel(){
     val passwordTextWatcher:TextWatcher
         get()= object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                user .setPassword(s.toString())
+                user.setPassword(s.toString())
+                user.onEmailInput()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -51,13 +65,13 @@ class LoginViewModel(private val listener: LoginResultCallBacks): ViewModel(){
     fun onLoginClicked(v: View){
         var loginCode:Int = user.isDataValid()
         if (loginCode == 0)
-            listener.onError("el correo electrónico no debe estar vacío")
+            listener.onError("Email address cannot be empty!")
         else if (loginCode == 1)
-            listener.onError("No es un patrón correcto de email")
+            listener.onError("Not a valid email")
         else if (loginCode == 2)
-            listener.onError("La longitud de la contraseña debe ser mayor que 6")
+            listener.onError("Password should be more than 6 characters")
         else
-            listener.onSuccess("Acceso exitoso")
+            listener.onSuccess("Accessed!")
     }
 
 
