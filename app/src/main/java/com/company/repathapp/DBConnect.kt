@@ -1,3 +1,4 @@
+/*
 package com.company.repathapp
 
 import android.content.ContentValues.TAG
@@ -22,4 +23,4 @@ class DBConnect : AppCompatActivity() {
                 .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
-}
+}*/

@@ -8,14 +8,14 @@
 
     <data>
     <variable
-        name="loginViewModel"
+        name="viewModel"
         type="com.company.repathapp.viewmodel.LoginViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -40,8 +40,10 @@
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textColorHint="#757575"
-            app:addTextChangedListener="@{loginViewModel.emailTextWatcher}"
-            />
+            android:gravity="center_horizontal"
+            app:addTextChangedListener="@{viewModel.emailTextWatcher}"/>
+
+
 
         <EditText
             android:id="@+id/passwordText"
@@ -54,8 +56,10 @@
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textColorHint="#757575"
-            app:addTextChangedListener = "@{loginViewModel.passwordTextWatcher}"
+            android:gravity="center_horizontal"
+            app:addTextChangedListener="@{viewModel.passwordTextWatcher}"
             />
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginButton"
@@ -65,7 +69,9 @@
             android:layout_marginTop="20dp"
             android:background="#6200EE"
             android:text="@string/loginButton"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:onClick="@{viewModel::onLoginClicked}"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signUpButton"
