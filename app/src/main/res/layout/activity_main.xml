@@ -8,94 +8,114 @@
 
     <data>
     <variable
-        name="viewModel"
+        name="loginViewModel"
         type="com.company.repathapp.viewmodel.LoginViewModel" />
-        <variable
-            name="User"
-            type="com.company.repathapp.model.User" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="211dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="145dp"
-        android:layout_marginBottom="240dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/createData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/emailText"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints="Email address"
-            android:ems="10"
-            android:textColor="@{User.color}"
-            android:hint="@string/e_mail_address_input"
-            android:inputType="textEmailAddress"
-            android:minHeight="48dp"
-            android:textAlignment="center"
-            android:textColorHint="#757575"
-            android:gravity="center_horizontal"
-            app:addTextChangedListener="@{viewModel.emailTextWatcher}"/>
+            android:layout_marginTop="140dp"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/emailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints="Email address"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/e_mail_address_input"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                android:textColorHint="#757575"
+                android:textColor="@={loginViewModel.textColor}"
+                android:text="@={loginViewModel.emailAddress}" />
+
+            <TextView
+                android:id="@+id/emailAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/passwordText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Password"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/password_input"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                android:textColorHint="#757575"
+                android:text="@={loginViewModel.password}"
+                />
+
+            <TextView
+                android:id="@+id/passwordAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginButton"
+                android:layout_width="118dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="#6200EE"
+                android:onClick="@{(v) -> loginViewModel.onClick(v)}"
+                android:text="@string/loginButton"
+                android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signUpButton"
+                android:layout_width="118dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="#6200EE"
+                android:text="@string/sign_up"
+                android:textColor="#FFFFFF" />
 
 
-        <EditText
-            android:id="@+id/passwordText"
-            android:layout_width="match_parent"
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/createData"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints="Password"
-            android:ems="10"
-            android:gravity="center_horizontal"
-            android:hint="@string/password_input"
-            android:inputType="textPassword"
-            android:minHeight="48dp"
-            android:textAlignment="center"
-            android:textColorHint="#757575"
-            app:addTextChangedListener="@{viewModel.passwordTextWatcher}" />
+            android:layout_marginTop="688dp"
+            android:text="@string/createDataBtnTEST"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/loginButton"
-            android:layout_width="118dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="#6200EE"
-            android:text="@string/loginButton"
-            android:textColor="#FFFFFF"
-            android:onClick="@{viewModel::onLoginClicked}"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signUpButton"
-            android:layout_width="118dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="#6200EE"
-            android:text="@string/sign_up"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/createData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/createDataBtnTEST"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
