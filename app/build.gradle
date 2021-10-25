@@ -27,6 +27,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        version '2.3.3'
         dataBinding true
 
     }

@@ -1,24 +1,15 @@
 package com.company.repathapp.viewmodel
 
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.company.repathapp.model.User
-import org.w3c.dom.Text
 
 class LoginViewModel: ViewModel()  {
 
-
-
         var emailAddress =  MutableLiveData<String>()
         var password = MutableLiveData<String>()
-
 
     private var userMutableLiveData: MutableLiveData<User>? = null
 
@@ -30,18 +21,26 @@ class LoginViewModel: ViewModel()  {
         return userMutableLiveData
     }
 
-    private var textColor: MutableLiveData<EditText>? = null
+    private val textColor = MutableLiveData<Int>()
 
-    fun getTextColor(): MutableLiveData<EditText>?{
-        if (textColor == null) {
-            textColor = MutableLiveData()
-        }
+   private fun setColor(color: Int) {
+        textColor.value = color
+    }
+
+    fun getColor(): MutableLiveData<Int> {
         return textColor
     }
 
-
-
-
+    fun onEmailInput():Boolean{
+        val loginUser = User(emailAddress.value, password.value)
+        return if (!loginUser.isEmailValid()) {
+            setColor(Color.RED)
+            false
+        }else{
+            setColor(Color.BLACK)
+            true
+        }
+    }
 
 
     fun onClick(view: View?) {

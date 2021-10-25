@@ -40,8 +40,13 @@
                 android:minHeight="48dp"
                 android:textAlignment="center"
                 android:textColorHint="#757575"
-                android:textColor="@={loginViewModel.textColor}"
-                android:text="@={loginViewModel.emailAddress}" />
+                android:android:onTextChanged=""
+                android:text="@={loginViewModel.emailAddress}"
+                android:textColor="@{loginViewModel.color}"
+
+                />
+
+
 
             <TextView
                 android:id="@+id/emailAnswer"
