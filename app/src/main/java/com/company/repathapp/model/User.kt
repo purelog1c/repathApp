@@ -1,7 +1,6 @@
 package com.company.repathapp.model
 
 import android.util.Patterns
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class User(private var email: String?, private var password: String?) {
@@ -22,7 +21,6 @@ class User(private var email: String?, private var password: String?) {
         fun getPassword(): String? {
             return password
         }
-
 
     fun isPasswordLengthGreaterThan5(): Boolean {
         val passwordLength: Int? = getPassword()?.length
