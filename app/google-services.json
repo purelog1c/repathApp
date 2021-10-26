@@ -7,41 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:99816672798:android:695079da0dce330522e80f",
-        "android_client_info": {
-          "package_name": "com.company.repath"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBQsXbGl9XG11kao7zCAdru5h1XMzYlgBU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:99816672798:android:a653c459461cce2122e80f",
+        "mobilesdk_app_id": "1:99816672798:android:220f772d02543c5222e80f",
         "android_client_info": {
           "package_name": "com.company.repathapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "99816672798-7np8f26ir6ghsv0murkn7kv34c4tk0f0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.repathapp",
+            "certificate_hash": "6f3edfb0f6dd4619913b1156f2351413450c90a8"
+          }
+        },
         {
           "client_id": "99816672798-rqjbbbdj787g2hpis02qj26hmgt7g33d.apps.googleusercontent.com",
           "client_type": 3

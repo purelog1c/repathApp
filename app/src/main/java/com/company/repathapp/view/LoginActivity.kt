@@ -7,18 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.company.repathapp.R
-import com.company.repathapp.databinding.ActivityMainBinding
+import com.company.repathapp.databinding.ActivityLoginBinding
 import com.company.repathapp.viewmodel.LoginViewModel
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,R.layout.activity_main)
+        val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this,R.layout.activity_login)
 
         binding.lifecycleOwner = this
         binding.loginViewModel = loginViewModel
