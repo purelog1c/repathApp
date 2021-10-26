@@ -40,13 +40,11 @@
                 android:minHeight="48dp"
                 android:textAlignment="center"
                 android:textColorHint="#757575"
-                android:android:onTextChanged=""
                 android:text="@={loginViewModel.emailAddress}"
-                android:textColor="@{loginViewModel.color}"
+                android:onTextChanged="@{loginViewModel.onEmailChanged}"
+                android:textColor="@{loginViewModel.emailColor}"
 
                 />
-
-
 
             <TextView
                 android:id="@+id/emailAnswer"
@@ -59,7 +57,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <EditText
                 android:id="@+id/passwordText"
                 android:layout_width="match_parent"
@@ -73,6 +70,8 @@
                 android:textAlignment="center"
                 android:textColorHint="#757575"
                 android:text="@={loginViewModel.password}"
+                android:textColor="@{loginViewModel.passColor}"
+                android:onTextChanged="@{loginViewModel.onPasswordChanged}"
                 />
 
             <TextView
