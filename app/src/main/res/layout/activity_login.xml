@@ -41,8 +41,6 @@
                 android:textAlignment="center"
                 android:textColorHint="#757575"
                 android:text="@={loginViewModel.emailAddress}"
-                android:onTextChanged="@{loginViewModel.onEmailChanged}"
-                android:textColor="@{loginViewModel.emailColor}"
 
                 />
 
@@ -70,8 +68,6 @@
                 android:textAlignment="center"
                 android:textColorHint="#757575"
                 android:text="@={loginViewModel.password}"
-                android:textColor="@{loginViewModel.passColor}"
-                android:onTextChanged="@{loginViewModel.onPasswordChanged}"
                 />
 
             <TextView

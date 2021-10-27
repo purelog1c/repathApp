@@ -1,16 +1,15 @@
 package com.company.repathapp.model
 
 import android.util.Patterns
-import androidx.lifecycle.MutableLiveData
 
-class User(private var email: String?, private var password: String?) {
+class UserLoginModel(private var email: String?, private var password: String?) {
 
 
-        fun setEmail(email: MutableLiveData<String>){
+        fun setEmail(email: String?){
             this.email = email.toString()
         }
 
-        fun setPassword(password: MutableLiveData<String>){
+        fun setPassword(password: String?){
             this.password = password.toString()
         }
 

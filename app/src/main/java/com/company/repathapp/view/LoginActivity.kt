@@ -30,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
                 binding.emailText.requestFocus()
             } else if (!User.isEmailValid()) {
                 binding.emailText.error = ("Enter a Valid E-mail Address")
-                binding.emailText.setTextColor(Color.RED)
                 binding.emailText.requestFocus()
 
             } else if (TextUtils.isEmpty(Objects.requireNonNull(User).getPassword())) {
@@ -39,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
             } else if (!User.isPasswordLengthGreaterThan5()) {
                 binding.passwordText.error = ("Enter at least 6 digit password")
                 binding.passwordText.requestFocus()
-                binding.passwordText.setTextColor(Color.RED)
             } else {
                 binding.emailAnswer.text = "Success!"
                 binding.passwordAnswer.text = "Success!"
