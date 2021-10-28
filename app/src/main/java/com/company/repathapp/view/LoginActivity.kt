@@ -1,6 +1,5 @@
 package com.company.repathapp.view
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity

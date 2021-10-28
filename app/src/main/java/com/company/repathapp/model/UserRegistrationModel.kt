@@ -1,8 +1,13 @@
 package com.company.repathapp.model
 
-class UserRegistrationModel(private var name: String?, private var surname: String?, private var username: String?, private var password: String?, private var address: String?) {
+import android.util.Patterns
+import com.company.repathapp.utils.PasswordStrengthCalculator
 
-    fun getName(): String? {
+class UserRegistrationModel(private var name: String?, private var surname: String?, private var email: String?, private var password: String?) {
+
+
+
+    private fun getName(): String? {
         return name
     }
 
@@ -10,20 +15,29 @@ class UserRegistrationModel(private var name: String?, private var surname: Stri
         return surname
     }
 
-    fun getUsername():String? {
-        return username
+    fun getEmail():String? {
+        return email
     }
 
     fun getPassword():String?{
         return password
     }
 
-    fun getAddress():String?{
-        return address
+
+    fun isValidEmail():Boolean{
+        return Patterns.EMAIL_ADDRESS.matcher(getEmail().toString()).matches()
+    }
+
+    fun isPasswordLengthGreaterThan5(): Boolean {
+        val passwordLength: Int? = getPassword()?.length
+        return passwordLength != null && passwordLength > 5
     }
 
 
 
+    fun isValidNameOrSurname():Boolean{
+        return getName()?.toRegex()?.matches("(?i)[a-z]([- ',.a-z]{0,23}[a-z])?") == true
+    }
 
 
 

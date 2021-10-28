@@ -6,4 +6,8 @@
     <string name="loginButton">Login</string>
     <string name="sign_up">Sign Up</string>
     <string name="name">Name</string>
+    <string name="lowercase_letters">lowercase_letters</string>
+    <string name="uppercase_letters">uppercase_letters</string>
+    <string name="digits">digits</string>
+    <string name="special_characters">special_characters</string>
 </resources>
