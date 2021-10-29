@@ -30,6 +30,7 @@
                 android:id="@+id/editTextPersonName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@={userRegistrationViewModel.name}"
                 android:ems="10"
                 android:hint="@string/name"
                 android:inputType="textPersonName"
@@ -40,6 +41,7 @@
                 android:id="@+id/editTextPersonSurname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@={userRegistrationViewModel.surname}"
                 android:ems="10"
                 android:hint="Surname"
                 android:inputType="textPersonName"
@@ -50,6 +52,7 @@
                 android:id="@+id/registerEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@={userRegistrationViewModel.email}"
                 android:autofillHints="Email address"
                 android:ems="10"
                 android:hint="@string/e_mail_address_input"
@@ -63,9 +66,11 @@
                 android:orientation="horizontal">
 
                 <EditText
+
                     android:id="@+id/password_input"
                     android:layout_width="227dp"
                     android:layout_height="match_parent"
+                    android:text="@={userRegistrationViewModel.password}"
                     android:ems="10"
                     android:hint="@string/password_input"
                     android:inputType="textPassword"
@@ -105,9 +110,10 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPassword2"
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@={userRegistrationViewModel.passwordVerification}"
                 android:ems="10"
                 android:hint="Verify password"
                 android:inputType="textPassword"
@@ -118,7 +124,9 @@
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_up" />
+                android:text="@string/sign_up"
+                android:onClick="@{(v) -> userRegistrationViewModel.registerOnClick(v)}"
+                />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

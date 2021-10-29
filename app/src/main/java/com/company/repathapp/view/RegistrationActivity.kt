@@ -3,6 +3,7 @@ package com.company.repathapp.view
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.company.repathapp.utils.PasswordStrengthCalculator
 import com.company.repathapp.viewmodel.UserRegistrationViewModel
 import com.company.repathapp.databinding.ActivityRegisterBinding
 import com.company.repathapp.utils.StrengthLevel
+import java.util.*
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -35,12 +37,26 @@ class RegistrationActivity : AppCompatActivity() {
         val strength = registerBinding.passwordInput.addTextChangedListener(passwordStrengthCalculator)
 
         userRegistrationViewModel.getRegisteringUser()!!.observe(this, {User ->
-
-            if(!User.isValidNameOrSurname()){
-                registerBinding.editTextPersonName.error = "Enter a valid Name"
+            if(!User.isPasswordVerified(registerBinding.editTextPassword.text.toString())){
+                registerBinding.editTextPassword.error = "password is not verified!"
             }
+            if (TextUtils.isEmpty(Objects.requireNonNull(User).getEmail())) {
+                registerBinding.registerEmail.error = "Enter an E-Mail Address"
+                registerBinding.registerEmail.requestFocus()
+            } else if (!User.isValidEmail()) {
+                registerBinding.registerEmail.error = ("Enter a Valid E-mail Address")
+                registerBinding.registerEmail.requestFocus()}
 
+            if (TextUtils.isEmpty(Objects.requireNonNull(User).getPassword())) {
+                registerBinding.passwordInput.error = ("Enter a Password")
+                registerBinding.passwordInput.requestFocus()
+            } else if (!User.isPasswordLengthGreaterThan5()) {
+                registerBinding.passwordInput.error = ("Enter at least 6 digit password")
+                registerBinding.passwordInput.requestFocus()
+            } else {
+                Log.i("Success", "Success")}
         })
+
 
         fun displayStrengthLevel(strengthLevel: StrengthLevel) {
 

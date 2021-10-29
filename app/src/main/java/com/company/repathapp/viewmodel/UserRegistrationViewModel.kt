@@ -12,15 +12,7 @@ class UserRegistrationViewModel :ViewModel() {
     var surname = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var password = MutableLiveData<String>()
-
-    val passwordStrengthCalculator = PasswordStrengthCalculator()
-
-
-    fun calculatePasswordStrength(){
-
-    }
-
-
+    var passwordVerification = MutableLiveData<String>()
 
 
     var userRegistrationLiveData: MutableLiveData<UserRegistrationModel>? = null

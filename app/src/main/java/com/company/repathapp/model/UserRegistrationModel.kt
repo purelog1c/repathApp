@@ -7,7 +7,7 @@ class UserRegistrationModel(private var name: String?, private var surname: Stri
 
 
 
-    private fun getName(): String? {
+    fun getName(): String? {
         return name
     }
 
@@ -23,6 +23,9 @@ class UserRegistrationModel(private var name: String?, private var surname: Stri
         return password
     }
 
+    fun isPasswordVerified(passwordVerificationText: String?):Boolean{
+        return passwordVerificationText == getPassword()
+    }
 
     fun isValidEmail():Boolean{
         return Patterns.EMAIL_ADDRESS.matcher(getEmail().toString()).matches()
@@ -32,12 +35,11 @@ class UserRegistrationModel(private var name: String?, private var surname: Stri
         val passwordLength: Int? = getPassword()?.length
         return passwordLength != null && passwordLength > 5
     }
+/*
+    fun isValidNameOrSurname(nameOrSurname: String):Boolean{
 
-
-
-    fun isValidNameOrSurname():Boolean{
-        return getName()?.toRegex()?.matches("(?i)[a-z]([- ',.a-z]{0,23}[a-z])?") == true
-    }
+        return nameOrSurname.
+    }*/
 
 
 

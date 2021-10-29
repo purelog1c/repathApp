@@ -21,6 +21,8 @@ class UserLoginModel(private var email: String?, private var password: String?) 
             return password
         }
 
+
+
     fun isPasswordLengthGreaterThan5(): Boolean {
         val passwordLength: Int? = getPassword()?.length
         return passwordLength != null && passwordLength > 5
