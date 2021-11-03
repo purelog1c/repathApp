@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RepathApp">
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".view.RegistrationActivity"
+            android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

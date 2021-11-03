@@ -89,7 +89,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="#6200EE"
-                android:onClick="@{(v) -> loginViewModel.onClick(v)}"
+                android:onClick="@{(v) -> loginViewModel.onLoginClicked(v)}"
                 android:text="@string/loginButton"
                 android:textColor="#FFFFFF" />
 
@@ -101,7 +101,9 @@
                 android:layout_marginTop="5dp"
                 android:background="#6200EE"
                 android:text="@string/sign_up"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:onClick="@{(v) -> loginViewModel.onSignUpClicked(v)}"
+                />
 
 
         </LinearLayout>

@@ -1,22 +1,26 @@
 package com.company.repathapp.view
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.company.repathapp.R
-import com.company.repathapp.databinding.ActivityLoginBinding
-import com.company.repathapp.utils.PasswordStrengthCalculator
-import com.company.repathapp.viewmodel.UserRegistrationViewModel
 import com.company.repathapp.databinding.ActivityRegisterBinding
+import com.company.repathapp.utils.FirebaseUtils
+import com.company.repathapp.utils.PasswordStrengthCalculator
 import com.company.repathapp.utils.StrengthLevel
+import com.company.repathapp.viewmodel.UserRegistrationViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import java.util.*
 
 
@@ -37,23 +41,58 @@ class RegistrationActivity : AppCompatActivity() {
         val strength = registerBinding.passwordInput.addTextChangedListener(passwordStrengthCalculator)
 
         userRegistrationViewModel.getRegisteringUser()!!.observe(this, {User ->
-            if(!User.isPasswordVerified(registerBinding.editTextPassword.text.toString())){
-                registerBinding.editTextPassword.error = "password is not verified!"
-            }
+
             if (TextUtils.isEmpty(Objects.requireNonNull(User).getEmail())) {
                 registerBinding.registerEmail.error = "Enter an E-Mail Address"
                 registerBinding.registerEmail.requestFocus()
-            } else if (!User.isValidEmail()) {
+            }else if (!User.isValidEmail()) {
                 registerBinding.registerEmail.error = ("Enter a Valid E-mail Address")
-                registerBinding.registerEmail.requestFocus()}
-
-            if (TextUtils.isEmpty(Objects.requireNonNull(User).getPassword())) {
+                registerBinding.registerEmail.requestFocus()
+            }else if(TextUtils.isEmpty(Objects.requireNonNull(User).getPassword())){
                 registerBinding.passwordInput.error = ("Enter a Password")
                 registerBinding.passwordInput.requestFocus()
-            } else if (!User.isPasswordLengthGreaterThan5()) {
-                registerBinding.passwordInput.error = ("Enter at least 6 digit password")
+            }else if (!User.isPasswordLengthGreaterThan5()) {
+                registerBinding.passwordInput.error = ("Password length should be more than 6 digits")
                 registerBinding.passwordInput.requestFocus()
-            } else {
+            }else if(!User.isPasswordVerified(registerBinding.editTextPassword.text.toString())){
+                registerBinding.editTextPassword.error = "password is not verified!"
+                registerBinding.editTextPassword.requestFocus()
+            }else {
+
+
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(User.getEmail().toString(), User.getPassword().toString())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            var firebaseUser: FirebaseUser = task.result!!.user!!
+                            Toast.makeText(
+                                this@RegistrationActivity,
+                                "You are successfully Registered",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            val userData = hashMapOf<String, Any>(
+                                "name" to User.getName().toString(),
+                                "surname" to User.getSurname().toString(),
+                                "email" to User.getEmail().toString(),
+                                "UID" to firebaseUser.uid
+                            )
+                            FirebaseUtils().fireStoreDatabase.collection("users").add(userData)
+                                    .addOnSuccessListener {
+                                        Log.d(TAG, "Added document with ID ${it.id}")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.w(TAG, "Error adding document $exception")
+                                    }
+                        }
+                        else{
+                            Toast.makeText(
+                                this@RegistrationActivity,
+                                "User already exists!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 Log.i("Success", "Success")}
         })
 
