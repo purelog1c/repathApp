@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     }
 
 android {
@@ -25,7 +26,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
         version '2.3.3'
         dataBinding true
     }
@@ -62,6 +63,11 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

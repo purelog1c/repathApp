@@ -1,21 +1,20 @@
 package com.company.repathapp.viewmodel
 
-
-import android.content.Context
 import android.content.Intent
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.company.repathapp.model.UserLoginModel
-import com.company.repathapp.view.LoginActivity
+import com.company.repathapp.view.MapsActivity
 import com.company.repathapp.view.RegistrationActivity
+
 
 class LoginViewModel: ViewModel()  {
 
     // LOGIN PARAMETERS FOR VIEW
     var emailAddress =  MutableLiveData<String>()
     var password = MutableLiveData<String>()
+
 
     // CREATE USER
     private var userLoginModelMutableLiveData: MutableLiveData<UserLoginModel>? = null
@@ -31,6 +30,12 @@ class LoginViewModel: ViewModel()  {
     fun onSignUpClicked(view: View?){
         val context = view?.context
         val intent = Intent(context, RegistrationActivity::class.java)
+        context?.startActivity(intent)
+    }
+
+    fun onSuccessfulLogin(view: View?){
+        val context = view?.context
+        val intent = Intent(context, MapsActivity::class.java)
         context?.startActivity(intent)
     }
 

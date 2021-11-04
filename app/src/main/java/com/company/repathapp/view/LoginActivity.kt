@@ -1,7 +1,10 @@
 package com.company.repathapp.view
 
+import android.app.Activity
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,7 +13,6 @@ import com.company.repathapp.R
 import com.company.repathapp.databinding.ActivityLoginBinding
 import com.company.repathapp.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import java.util.*
 
 
@@ -47,6 +49,14 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(
                                 this@LoginActivity,
                                 "You are successfully logged in",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            loginViewModel.onSuccessfulLogin(binding.root)
+                        }
+                        else{
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Wrong email or password",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
