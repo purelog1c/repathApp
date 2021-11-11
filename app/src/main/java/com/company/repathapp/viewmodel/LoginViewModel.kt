@@ -19,6 +19,7 @@ class LoginViewModel: ViewModel()  {
     // CREATE USER
     private var userLoginModelMutableLiveData: MutableLiveData<UserLoginModel>? = null
 
+
     //GET USER
     fun getUser(): MutableLiveData<UserLoginModel>? {
         if (userLoginModelMutableLiveData == null) {

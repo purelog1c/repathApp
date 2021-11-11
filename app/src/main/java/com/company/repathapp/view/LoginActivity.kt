@@ -15,14 +15,15 @@ import com.company.repathapp.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
-
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this,R.layout.activity_login)
+
 
         binding.lifecycleOwner = this
         binding.loginViewModel = loginViewModel
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(Objects.requireNonNull(User).getEmail())) {
                 binding.emailText.error = "Enter an E-Mail Address"
                 binding.emailText.requestFocus()
+
             } else if (!User.isEmailValid()) {
                 binding.emailText.error = ("Enter a Valid E-mail Address")
                 binding.emailText.requestFocus()

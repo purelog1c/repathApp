@@ -2,18 +2,19 @@ package com.company.repathapp.view
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.company.repathapp.R
 import com.company.repathapp.databinding.ActivityMapsBinding
-import com.company.repathapp.viewmodel.MapAttributesViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,51 +24,46 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
+internal inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
+    // Chained
+    beginTransaction().func().commit()
+}
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<Location> {
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+
+
+    private fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
+        supportFragmentManager.inTransaction { add(frameId, fragment) }
+    }
+    private fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
+        supportFragmentManager.inTransaction{replace(frameId, fragment)}
+    }
+    private fun AppCompatActivity.removeFragment(fragment: Fragment) {
+        supportFragmentManager.inTransaction{remove(fragment)}
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-/*        val mapAttributeViewModel = ViewModelProvider(this)[MapAttributesViewModel::class.java]
-        val mapAttributeBinding = DataBindingUtil.setContentView<ActivityMapsBinding>(this,R.layout.activity_maps)
-
-        mapAttributeBinding.lifecycleOwner = this
-        mapAttributeBinding.map = mapAttributeViewModel*/
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        if(savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<MapAttributesFragment>(R.id.map)
-            }
-        }
-
-      //  supportFragmentManager.beginTransaction().replace(R.layout.map_attributes_fragment,)
-
-
-
-
-
-
-        /*val loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this,R.layout.activity_login)
-
-        binding.lifecycleOwner = this
-        binding.loginViewModel = loginViewModel*/
     }
+
+
 
     /**
      * Manipulates the map once available.
@@ -91,16 +87,61 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
             return
         }
         setupMap()
-        googleMap.setOnMapClickListener {
+        //addFragment(MapAttributesFragment(), R.id.map)
+        googleMap.setOnMapLongClickListener{ location -> getLocation(location)
+
+        sendGetClosestRoad(location)
+
+            binding.root.getLocationOnScreen()
+            removeFragment(MapAttributesFragment())
+
         }
+    }
+
+    private fun View.getLocationOnScreen(): Point {
+        val location = IntArray(2)
+        this.getLocationOnScreen(location)
+        Log.w("Location", Point(location[0],location[1]).toString())
+        return Point(location[0],location[1])
+    }
+
+    private fun getLocation(point:LatLng){
+        Toast.makeText(this,
+            point.latitude.toString() + ", " + point.longitude,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun sendGetClosestRoad(location: LatLng){
+
+        val roadLat = location.latitude.toString()
+        val roadLong = location.longitude.toString()
+        var full = roadLat.plus(",").plus(roadLong)
+
+        Log.i("LatLng",full.toString())
+        val client = OkHttpClient()
+
+        GlobalScope.launch(Dispatchers.IO) {
+
+            val request = Request.Builder()
+                .url("https://roads.googleapis.com/v1/nearestRoads?points=$full&key=AIzaSyD9y9En0zDS3fxSll0-CL8hFBzhH9lNLqg")
+                .method("GET", null)
+                .build()
+
+            val response = client.newCall(request).execute()
+            if(response.isSuccessful){
+                println(response.body()?.string())
+                addFragment(MapAttributesFragment(),R.id.map)
+                Log.i("Success","Successful")
+            }else{Log.i("NoSuccess","UnSuccessful")}
+        }
+
     }
 
     private fun setupMap()
     {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mFusedLocationClient!!.lastLocation.addOnSuccessListener(this, this)
-
-
     }
 
     override fun onSuccess(location: Location?) {
@@ -110,6 +151,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
             val sydney = LatLng(mLatitude, mLongitude)
             mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
             mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
 
         }
     }
