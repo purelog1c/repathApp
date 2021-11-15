@@ -29,6 +29,8 @@ import com.squareup.okhttp.Request
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.google.android.material.internal.ContextUtils.getActivity
+
 
 internal inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     // Chained
@@ -40,17 +42,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private lateinit var mapAttributesFragment: Unit
+    //private lateinit var mapAttributesFragment: Unit
 
 
-    private fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
-        supportFragmentManager.inTransaction { add(frameId, fragment) }
+    private fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int, tag : String){
+        supportFragmentManager.inTransaction { add(frameId, fragment, tag) }
     }
-    private fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
-        supportFragmentManager.inTransaction{replace(frameId, fragment)}
+    private fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int, tag: String) {
+        supportFragmentManager.inTransaction{replace(frameId, fragment , tag)}
     }
     private fun AppCompatActivity.removeFragment(fragment: Fragment) {
         supportFragmentManager.inTransaction{remove(fragment)}
     }
+    private fun AppCompatActivity.getFragment(tag: String) {
+        supportFragmentManager.findFragmentByTag(tag)
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,14 +97,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         setupMap()
         //addFragment(MapAttributesFragment(), R.id.map)
         googleMap.setOnMapLongClickListener{ location -> getLocation(location)
-
         sendGetClosestRoad(location)
 
-            binding.root.getLocationOnScreen()
-            removeFragment(MapAttributesFragment())
+            val fragmentA = supportFragmentManager.findFragmentByTag("mapAtb")
+            //supportFragmentManager.findFragmentById(MapAttributesFragment().id)
 
+            if(fragmentA == null){
+                mapAttributesFragment = addFragment(MapAttributesFragment(),R.id.map,"mapAtb")
+
+              //   = (mapAttributesFragment as MapAttributesFragment).upAnimation()
+            }else{
+                Log.i("EXISTS!","FRAGMENT EXISTS IN THE SCENE")
+            }//binding.root.getLocationOnScreen()
         }
     }
+
+
+
+
 
     private fun View.getLocationOnScreen(): Point {
         val location = IntArray(2)
@@ -121,7 +139,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         Log.i("LatLng",full.toString())
         val client = OkHttpClient()
 
-        GlobalScope.launch(Dispatchers.IO) {
+
+
+/*        GlobalScope.launch(Dispatchers.IO) {
 
             val request = Request.Builder()
                 .url("https://roads.googleapis.com/v1/nearestRoads?points=$full&key=AIzaSyD9y9En0zDS3fxSll0-CL8hFBzhH9lNLqg")
@@ -131,10 +151,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
             val response = client.newCall(request).execute()
             if(response.isSuccessful){
                 println(response.body()?.string())
-                addFragment(MapAttributesFragment(),R.id.map)
+
+
+
                 Log.i("Success","Successful")
             }else{Log.i("NoSuccess","UnSuccessful")}
-        }
+        }*/
 
     }
 

@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.emailText.error = "Enter an E-Mail Address"
                 binding.emailText.requestFocus()
 
+
             } else if (!User.isEmailValid()) {
                 binding.emailText.error = ("Enter a Valid E-mail Address")
                 binding.emailText.requestFocus()
