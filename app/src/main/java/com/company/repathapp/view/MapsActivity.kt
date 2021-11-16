@@ -25,11 +25,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import com.google.android.material.internal.ContextUtils.getActivity
 
 
 internal inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
@@ -43,8 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private lateinit var mapAttributesFragment: Unit
-    //private lateinit var mapAttributesFragment: Unit
-
+    private var homeFragment: PotholeFragment? = null
 
     private fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int, tag : String){
         supportFragmentManager.inTransaction { add(frameId, fragment, tag) }
@@ -55,9 +49,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
     private fun AppCompatActivity.removeFragment(fragment: Fragment) {
         supportFragmentManager.inTransaction{remove(fragment)}
     }
-    private fun AppCompatActivity.getFragment(tag: String) {
-        supportFragmentManager.findFragmentByTag(tag)
+
+    private fun getPotholeFragment() : PotholeFragment {
+       return (supportFragmentManager.findFragmentByTag("mapAtb") as PotholeFragment)
     }
+
 
 
 
@@ -65,6 +61,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mapAttributesFragment = addFragment(PotholeFragment(),R.id.map,"mapAtb")
+       // getMapFragment = (mapAttributesFragment as MapAttributesFragment)
+
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -95,20 +95,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
             return
         }
         setupMap()
+
         //addFragment(MapAttributesFragment(), R.id.map)
         googleMap.setOnMapLongClickListener{ location -> getLocation(location)
         sendGetClosestRoad(location)
 
-            val fragmentA = supportFragmentManager.findFragmentByTag("mapAtb")
+            val homeFrag =  getPotholeFragment()
+            homeFrag.setCoordinates(12.3,45.2)
+/*            val fragmentA = supportFragmentManager.findFragmentByTag("mapAtb")
             //supportFragmentManager.findFragmentById(MapAttributesFragment().id)
 
             if(fragmentA == null){
-                mapAttributesFragment = addFragment(MapAttributesFragment(),R.id.map,"mapAtb")
+
 
               //   = (mapAttributesFragment as MapAttributesFragment).upAnimation()
             }else{
                 Log.i("EXISTS!","FRAGMENT EXISTS IN THE SCENE")
-            }//binding.root.getLocationOnScreen()
+            }*///binding.root.getLocationOnScreen()
         }
     }
 
