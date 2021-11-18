@@ -1,25 +1,19 @@
 package com.company.repathapp.view
 
 import android.os.Bundle
-import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-
 import androidx.fragment.app.Fragment
-
 import androidx.lifecycle.ViewModelProvider
-
 import com.company.repathapp.databinding.MapAttributesFragmentBinding
 import com.company.repathapp.viewmodel.PotholeViewModel
-import com.google.android.gms.maps.GoogleMap
-
 import com.google.android.gms.maps.model.LatLng
 
-class PotholeFragment : Fragment(), View.OnTouchListener {
+class PotholeFragment : Fragment() {
 
     private lateinit var binding: MapAttributesFragmentBinding
     companion object {
@@ -38,9 +32,15 @@ class PotholeFragment : Fragment(), View.OnTouchListener {
         potholeViewModelProvider = ViewModelProvider(this)[PotholeViewModel::class.java]
         binding.potholeViewModel = potholeViewModelProvider
 
-        binding.HighRisk.setOnTouchListener(this)
-        binding.MediumRisk.setOnTouchListener(this)
-        binding.LowRisk.setOnTouchListener(this)
+        binding.HighRisk.onTouch{v,event->
+            onTouchButton(v,event)
+        }
+        binding.MediumRisk.onTouch{v,event->
+            onTouchButton(v,event)
+        }
+        binding.LowRisk.onTouch{v,event->
+            onTouchButton(v,event)
+        }
 
         potholeViewModelProvider.getPotholeModel()!!.observe(viewLifecycleOwner,{Pothole ->
             val tem = Pothole.getLocation()
@@ -53,7 +53,7 @@ class PotholeFragment : Fragment(), View.OnTouchListener {
     }
 
     fun setCoordinates(mLatitude:Double, mLongitude:Double) {
-       // Log.i("YES","YES")
+
         val location = LatLng(mLatitude, mLongitude)
         potholeViewModelProvider.location = location
         potholeViewModelProvider.roadIcon = binding.HighRisk.background
@@ -64,18 +64,23 @@ class PotholeFragment : Fragment(), View.OnTouchListener {
         Log.i("Gola","Hola!!!")
     }
 
-
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-
+    private fun Button.onTouch(touch: (view: View, motionEvent: MotionEvent) -> Unit) {
+        setOnTouchListener { v, event ->
+            touch(v,event)
+            v.performClick()
+            true
+        }
+    }
+    private fun onTouchButton(v: View, event: MotionEvent) {
         val button:Button = (v as Button)
         when(event?.action){
             MotionEvent.ACTION_DOWN -> {
                 button.id = (v as Button).id
 
-               if(button == binding.HighRisk){
-                   binding.MediumRisk.isEnabled = false
-                   binding.LowRisk.isEnabled = false
-               }
+                if(button == binding.HighRisk){
+                    binding.MediumRisk.isEnabled = false
+                    binding.LowRisk.isEnabled = false
+                }
                 if(button == binding.MediumRisk){
                     binding.HighRisk.isEnabled = false
                     binding.LowRisk.isEnabled = false
@@ -86,15 +91,12 @@ class PotholeFragment : Fragment(), View.OnTouchListener {
                 }
             }
             MotionEvent.ACTION_UP ->{
-
                 binding.LowRisk.isEnabled = true
                 binding.MediumRisk.isEnabled = true
                 binding.HighRisk.isEnabled = true
-                return true
+                Log.i("BUTTONCLICKED", button.id.toString())
+
             }
         }
-        Log.i("LOGGER" , button.toString())
-        return false
     }
 }
-
