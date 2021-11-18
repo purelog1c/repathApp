@@ -96,6 +96,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         }
         setupMap()
 
+
+
         //addFragment(MapAttributesFragment(), R.id.map)
         googleMap.setOnMapLongClickListener{ location -> getLocation(location)
         sendGetClosestRoad(location)

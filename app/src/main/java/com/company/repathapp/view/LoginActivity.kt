@@ -1,10 +1,7 @@
 package com.company.repathapp.view
 
-import android.app.Activity
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.text.TextUtils
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil

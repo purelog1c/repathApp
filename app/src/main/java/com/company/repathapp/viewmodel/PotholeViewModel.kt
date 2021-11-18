@@ -2,14 +2,20 @@ package com.company.repathapp.viewmodel
 
 import android.graphics.drawable.Drawable
 import android.media.Image
+import android.util.Log
+import android.view.View
 import android.view.translation.TranslationContext
+import android.widget.Button
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
+import com.company.repathapp.R
 import com.company.repathapp.model.PotholeModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.maps.model.LatLng
 
 class PotholeViewModel : ViewModel() {
+
 
     lateinit var location : LatLng
     lateinit var roadIcon : Drawable
@@ -27,11 +33,18 @@ class PotholeViewModel : ViewModel() {
         return mapAttributesLiveData
     }
 
+    fun getButtonClicked(view : View){
 
+    }
+    fun setTouchListener(view: View, listener: View.OnTouchListener) {
+        view.setOnTouchListener(listener)
+    }
     fun CreatePothole(){
         val pothole = PotholeModel(location, roadIcon, currentUser)
         mapAttributesLiveData!!.value = pothole
     }
+}
+
 
 /*
     val selectedItem: LiveData<Layout> get() = mutableSelectedItem
@@ -40,5 +53,3 @@ class PotholeViewModel : ViewModel() {
         mutableSelectedItem.value = layout
     }
 */
-
-}

@@ -38,7 +38,6 @@ class RegistrationActivity : AppCompatActivity() {
         registerBinding.lifecycleOwner = this
         registerBinding.userRegistrationViewModel = userRegistrationViewModel
         registerBinding.passwordInput.addTextChangedListener(passwordStrengthCalculator)
-        val strength = registerBinding.passwordInput.addTextChangedListener(passwordStrengthCalculator)
 
         userRegistrationViewModel.getRegisteringUser()!!.observe(this, {User ->
 

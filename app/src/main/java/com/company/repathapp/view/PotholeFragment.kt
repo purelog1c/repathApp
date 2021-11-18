@@ -1,28 +1,27 @@
 package com.company.repathapp.view
 
 import android.os.Bundle
+import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+
 import androidx.lifecycle.ViewModelProvider
-import com.company.repathapp.R
+
 import com.company.repathapp.databinding.MapAttributesFragmentBinding
 import com.company.repathapp.viewmodel.PotholeViewModel
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
+
 import com.google.android.gms.maps.model.LatLng
 
-class PotholeFragment : Fragment(), OnMapReadyCallback {
-    private val viewModel: PotholeViewModel by viewModels()
-    private lateinit var mapView : MapView
-    private lateinit var mMap : GoogleMap
-    private lateinit var observer: Unit
-    private lateinit var binding: MapAttributesFragmentBinding
+class PotholeFragment : Fragment(), View.OnTouchListener {
 
+    private lateinit var binding: MapAttributesFragmentBinding
     companion object {
         fun newInstance() = PotholeFragment()
     }
@@ -33,38 +32,25 @@ class PotholeFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-/*
-        mapView = requireView().findViewById(R.id.map) as MapView
-        mapView.onCreate(savedInstanceState)
-        mapView.onResume()
-        mapView.getMapAsync(this)*/
-
-        return inflater.inflate(R.layout.map_attributes_fragment, container, false)
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        potholeViewModelProvider = ViewModelProvider(this)[PotholeViewModel::class.java]
 
         binding = MapAttributesFragmentBinding.inflate(this.layoutInflater)
         binding.lifecycleOwner = this
+        potholeViewModelProvider = ViewModelProvider(this)[PotholeViewModel::class.java]
         binding.potholeViewModel = potholeViewModelProvider
 
-        potholeViewModelProvider.getPotholeModel()!!.observe(this,{Pothole ->
+        binding.HighRisk.setOnTouchListener(this)
+        binding.MediumRisk.setOnTouchListener(this)
+        binding.LowRisk.setOnTouchListener(this)
 
+        potholeViewModelProvider.getPotholeModel()!!.observe(viewLifecycleOwner,{Pothole ->
             val tem = Pothole.getLocation()
 /*
             Pothole.getUserID()
             Pothole.setLocation(location)*/
             Log.i("YES",tem.toString())
         })
-
+        return binding.root
     }
-
-    fun tryout(){}
-
 
     fun setCoordinates(mLatitude:Double, mLongitude:Double) {
        // Log.i("YES","YES")
@@ -72,21 +58,43 @@ class PotholeFragment : Fragment(), OnMapReadyCallback {
         potholeViewModelProvider.location = location
         potholeViewModelProvider.roadIcon = binding.HighRisk.background
         potholeViewModelProvider.CreatePothole()
-
-
     }
-
 
     fun upAnimation(){
-
         Log.i("Gola","Hola!!!")
-
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap!!
-        mMap.setOnMapLongClickListener { Log.i("HI","Hi") }
 
-        TODO("Not yet implemented")
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+        val button:Button = (v as Button)
+        when(event?.action){
+            MotionEvent.ACTION_DOWN -> {
+                button.id = (v as Button).id
+
+               if(button == binding.HighRisk){
+                   binding.MediumRisk.isEnabled = false
+                   binding.LowRisk.isEnabled = false
+               }
+                if(button == binding.MediumRisk){
+                    binding.HighRisk.isEnabled = false
+                    binding.LowRisk.isEnabled = false
+                }
+                if(button == binding.LowRisk){
+                    binding.MediumRisk.isEnabled = false
+                    binding.HighRisk.isEnabled = false
+                }
+            }
+            MotionEvent.ACTION_UP ->{
+
+                binding.LowRisk.isEnabled = true
+                binding.MediumRisk.isEnabled = true
+                binding.HighRisk.isEnabled = true
+                return true
+            }
+        }
+        Log.i("LOGGER" , button.toString())
+        return false
     }
 }
+
