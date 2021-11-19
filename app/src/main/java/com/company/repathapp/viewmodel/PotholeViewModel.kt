@@ -1,29 +1,27 @@
 package com.company.repathapp.viewmodel
 
 import android.graphics.drawable.Drawable
-import android.media.Image
-import android.util.Log
 import android.view.View
-import android.view.translation.TranslationContext
-import android.widget.Button
+import android.widget.RadioGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-import com.company.repathapp.R
 import com.company.repathapp.model.PotholeModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.maps.model.LatLng
 
-class PotholeViewModel : ViewModel() {
+class PotholeViewModel : ViewModel(), RadioGroup.OnCheckedChangeListener {
 
 
     lateinit var location : LatLng
     lateinit var roadIcon : Drawable
-    val currentUser = FirebaseAuth.getInstance().currentUser?.uid
 
-    var mutableLayoutItem = MutableLiveData<TranslationContext>()
+    private val currentUser = FirebaseAuth.getInstance().currentUser?.uid
 
-    var mapAttributesLiveData: MutableLiveData<PotholeModel>? = null
+    private var mapAttributesLiveData: MutableLiveData<PotholeModel>? = null
+    private var buttonID : MutableLiveData<Int>? = null
+
 
     fun getPotholeModel(): MutableLiveData<PotholeModel>? {
 
@@ -33,12 +31,34 @@ class PotholeViewModel : ViewModel() {
         return mapAttributesLiveData
     }
 
-    fun getButtonClicked(view : View){
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        when(checkedId){
+            checkedId -> {
+                checkedId.also { buttonID?.value = it }
+            }
+        }
+    }
+    fun getPotholeTypeByID(): MutableLiveData<Int>? {
+        buttonID = MutableLiveData()
+        return buttonID
+    }
 
+    fun onConfirmed(view : View){
+        val pothole = PotholeModel(location, roadIcon, currentUser)
+        mapAttributesLiveData!!.value = pothole
     }
-    fun setTouchListener(view: View, listener: View.OnTouchListener) {
-        view.setOnTouchListener(listener)
+
+
+
+
+/*
+    fun RadioButton(view : View){
+        val checkedPotholeButton:RadioGroup =  (view as RadioGroup)
+        buttonID = checkedPotholeButton.checkedRadioButtonId
+        Log.i("BUTTON ID", buttonID.toString())
     }
+*/
+
     fun CreatePothole(){
         val pothole = PotholeModel(location, roadIcon, currentUser)
         mapAttributesLiveData!!.value = pothole

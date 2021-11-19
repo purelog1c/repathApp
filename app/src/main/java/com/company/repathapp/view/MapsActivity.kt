@@ -103,7 +103,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         sendGetClosestRoad(location)
 
             val homeFrag =  getPotholeFragment()
-            homeFrag.setCoordinates(12.3,45.2)
+            homeFrag.upAnimation()
+            //homeFrag.setCoordinates(12.3,45.2)
 /*            val fragmentA = supportFragmentManager.findFragmentByTag("mapAtb")
             //supportFragmentManager.findFragmentById(MapAttributesFragment().id)
 

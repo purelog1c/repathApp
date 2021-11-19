@@ -16,47 +16,110 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.PotholeFragment"
-        android:id="@+id/mapAttributes">
+        android:id="@+id/mapAttributes"
+
+        >
 
         <LinearLayout
-
-            android:layout_width="wrap_content"
+            android:id="@+id/potholeLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal">
+            android:layout_gravity="bottom"
+            android:background="#BC8888"
+            android:orientation="vertical"
+            android:clickable="true">
 
-<!--            android:translationY="50dp">-->
-            <Button
-                android:id="@+id/LowRisk"
+            <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal">
+
+                <!--            android:translationY="50dp">-->
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="411dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onCheckedChanged="@{(v,s) -> potholeViewModel.onCheckedChanged(v,s)}"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/smallPothole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/ic_pothole_low"
+                        android:text="Small"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/avaragePothole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/ic_pothole_medium"
+                        android:text="Avarage"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/deepPothole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/ic_pothole_high"
+                        android:text="Deep"
+
+                        />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button"
+                android:orientation="horizontal">
 
-                />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/MediumRisk"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:text="Button"
+                <Button
+                    android:id="@+id/cancel_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cancel" />
 
-                />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/HighRisk"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:text="Button"
-                tools:ignore="DuplicateSpeakableTextCheck"
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="@{(v) -> potholeViewModel.onConfirmed(v)"
+                    android:text="Confirm" />
 
-                />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </FrameLayout>
