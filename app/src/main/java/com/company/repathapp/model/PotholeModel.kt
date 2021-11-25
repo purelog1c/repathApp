@@ -1,24 +1,28 @@
 package com.company.repathapp.model
 
-import android.graphics.drawable.Drawable
-import android.media.Image
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.google.android.gms.maps.model.LatLng
 
-class PotholeModel (private var location : LatLng?, private var roadIcon: Drawable?, private var UID : String?) {
+class PotholeModel ( private var potholePosition: LatLng?, private var UID : String?, private var importanceCount: Int?) {
 
 
     fun getLocation():LatLng?{
-        return location
+        return potholePosition
+    }
+
+    fun getImportanceCount(): Int? {
+        return importanceCount
+    }
+
+    fun setImportanceCount(count:Int){
+        importanceCount = count
     }
 
     fun setLocation(latLng: LatLng){
-        this.location = latLng
+        this.potholePosition = latLng
     }
 
-    fun getRoadIcon():Drawable?{
-        return roadIcon
+    fun getRoadIcon():LatLng?{
+        return potholePosition
     }
 
     fun getUserID():String?{

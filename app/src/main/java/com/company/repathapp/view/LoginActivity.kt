@@ -20,8 +20,6 @@ class LoginActivity : AppCompatActivity() {
         val loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this,R.layout.activity_login)
-
-
         binding.lifecycleOwner = this
         binding.loginViewModel = loginViewModel
 

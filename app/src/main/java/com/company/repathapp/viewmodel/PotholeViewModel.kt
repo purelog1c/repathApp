@@ -1,75 +1,83 @@
 package com.company.repathapp.viewmodel
 
-import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.RadioGroup
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
+import androidx.lifecycle.viewModelScope
+import com.company.repathapp.Repo.PotholeLocation
 import com.company.repathapp.model.PotholeModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
+import com.squareup.okhttp.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PotholeViewModel : ViewModel(), RadioGroup.OnCheckedChangeListener {
 
-
-    lateinit var location : LatLng
-    lateinit var roadIcon : Drawable
-
+    //MODEL RELATED DATA
+    private var potholeLocation: MutableLiveData<LatLng>? = null
+    private var importanceCount: MutableLiveData<Int>? = null
     private val currentUser = FirebaseAuth.getInstance().currentUser?.uid
 
-    private var mapAttributesLiveData: MutableLiveData<PotholeModel>? = null
-    private var buttonID : MutableLiveData<Int>? = null
+    private var mapAttributes = MutableLiveData<PotholeModel>()
+    val _mapAttributes: LiveData<PotholeModel>
+    get() = mapAttributes
+
+    //ATTRIBUTE RELATED DATA
+    internal var jsonResponse = MutableLiveData<String>() //MutableLiveData<String>
+    public val _jsonResponse : LiveData<String>
+        get() = jsonResponse
 
 
-    fun getPotholeModel(): MutableLiveData<PotholeModel>? {
+    private var buttonID = MutableLiveData<Int>()
+    val _buttonID : LiveData<Int>
+        get() = buttonID
 
-        if (mapAttributesLiveData == null){
-            mapAttributesLiveData = MutableLiveData()
-        }
-        return mapAttributesLiveData
-    }
+    var isOver: MutableLiveData<Boolean>? = null
+
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when(checkedId){
+        when (checkedId) {
             checkedId -> {
-                checkedId.also { buttonID?.value = it }
+                checkedId.also {
+                    buttonID?.postValue(it)
+                }
             }
         }
     }
-    fun getPotholeTypeByID(): MutableLiveData<Int>? {
-        buttonID = MutableLiveData()
-        return buttonID
+
+    fun sendGetClosesRoad(location: LatLng) {
+
     }
 
-    fun onConfirmed(view : View){
-        val pothole = PotholeModel(location, roadIcon, currentUser)
-        mapAttributesLiveData!!.value = pothole
+    private fun createPotholeFromJson(response: MutableLiveData<String>?) {
+        if (response?.value?.length!! > 5) {
+            val gson = Gson()
+            val potholeModel = gson.fromJson(response.value, PotholeLocation::class.java)
+
+            val mLatitude = potholeModel.snappedPoints[0].location.latitude
+            val mLongitude = potholeModel.snappedPoints[0].location.longitude
+
+            val latLng = LatLng(mLatitude,mLongitude)
+            potholeLocation?.value = LatLng(mLatitude, mLongitude)
+
+            Log.w("LOCATION FROM API", latLng.toString())
+
+        }
+        else Log.i("READABLE?", "NOT READABLE!!!!!")
     }
 
 
-
-
-/*
-    fun RadioButton(view : View){
-        val checkedPotholeButton:RadioGroup =  (view as RadioGroup)
-        buttonID = checkedPotholeButton.checkedRadioButtonId
-        Log.i("BUTTON ID", buttonID.toString())
-    }
-*/
-
-    fun CreatePothole(){
-        val pothole = PotholeModel(location, roadIcon, currentUser)
-        mapAttributesLiveData!!.value = pothole
+    fun onConfirmed(view: View) {
+        importanceCount?.value = 0
+        val pothole = PotholeModel(potholeLocation?.value, currentUser, importanceCount?.value)
+        mapAttributes.postValue(pothole)
     }
 }
-
-
-/*
-    val selectedItem: LiveData<Layout> get() = mutableSelectedItem
-
-    fun selectItem(layout: Layout) {
-        mutableSelectedItem.value = layout
-    }
-*/
