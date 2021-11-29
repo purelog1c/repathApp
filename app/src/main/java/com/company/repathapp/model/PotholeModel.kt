@@ -2,11 +2,15 @@ package com.company.repathapp.model
 
 import com.google.android.gms.maps.model.LatLng
 
-class PotholeModel ( private var potholePosition: LatLng?, private var UID : String?, private var importanceCount: Int?) {
+class PotholeModel ( private var potholePosition: LatLng?, private var UID : String?, private var importanceCount: Int?, private var iconPath : String?) {
 
 
     fun getLocation():LatLng?{
         return potholePosition
+    }
+
+    fun getIconPath():String?{
+        return iconPath
     }
 
     fun getImportanceCount(): Int? {

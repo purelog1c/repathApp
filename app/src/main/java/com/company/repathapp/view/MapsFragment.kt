@@ -49,11 +49,10 @@ class MapsFragment : Fragment() {
             .url("https://roads.googleapis.com/v1/nearestRoads?points=$full&key=AIzaSyD9y9En0zDS3fxSll0-CL8hFBzhH9lNLqg")
             .method("GET", null)
             .build()
-        var strResponse = ""
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             val response = client.newCall(request).execute()
             if (response.isSuccessful) {
-                strResponse = response.body().string().toString()
+               val strResponse = response.body().string().toString()
                 potholeViewModel.jsonResponse.postValue(strResponse)
                 Log.w("RESPONSE", strResponse)
             } else {

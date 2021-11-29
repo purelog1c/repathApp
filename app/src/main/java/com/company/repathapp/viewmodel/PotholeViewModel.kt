@@ -22,62 +22,63 @@ import kotlinx.coroutines.launch
 class PotholeViewModel : ViewModel(), RadioGroup.OnCheckedChangeListener {
 
     //MODEL RELATED DATA
-    private var potholeLocation: MutableLiveData<LatLng>? = null
-    private var importanceCount: MutableLiveData<Int>? = null
+    private var potholeLocation = MutableLiveData<LatLng>()
+    val _potholeLocation: LiveData<LatLng>
+        get() = potholeLocation
+
+    private var iconPath = MutableLiveData("drawable/potholemarkerlow.png")
+    val _iconPath: LiveData<String>
+        get() = iconPath
+
+
+    private var importanceCount = MutableLiveData<Int>()
+    val _importanceCount: LiveData<Int>
+        get() = importanceCount
+
     private val currentUser = FirebaseAuth.getInstance().currentUser?.uid
 
     private var mapAttributes = MutableLiveData<PotholeModel>()
     val _mapAttributes: LiveData<PotholeModel>
-    get() = mapAttributes
+        get() = mapAttributes
 
     //ATTRIBUTE RELATED DATA
     internal var jsonResponse = MutableLiveData<String>() //MutableLiveData<String>
-    public val _jsonResponse : LiveData<String>
+    public val _jsonResponse: LiveData<String>
         get() = jsonResponse
 
 
     private var buttonID = MutableLiveData<Int>()
-    val _buttonID : LiveData<Int>
+    val _buttonID: LiveData<Int>
         get() = buttonID
 
     var isOver: MutableLiveData<Boolean>? = null
+
+    fun setPotholeLocation(latLng: LatLng) {
+        potholeLocation.value = latLng
+    }
+
+    fun setIconPath(iconPath: String) {
+        this.iconPath.value = iconPath
+    }
 
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when (checkedId) {
             checkedId -> {
                 checkedId.also {
-                    buttonID?.postValue(it)
+                    buttonID.postValue(it)
                 }
             }
         }
     }
 
-    fun sendGetClosesRoad(location: LatLng) {
+    private fun createPothole() {
 
     }
-
-    private fun createPotholeFromJson(response: MutableLiveData<String>?) {
-        if (response?.value?.length!! > 5) {
-            val gson = Gson()
-            val potholeModel = gson.fromJson(response.value, PotholeLocation::class.java)
-
-            val mLatitude = potholeModel.snappedPoints[0].location.latitude
-            val mLongitude = potholeModel.snappedPoints[0].location.longitude
-
-            val latLng = LatLng(mLatitude,mLongitude)
-            potholeLocation?.value = LatLng(mLatitude, mLongitude)
-
-            Log.w("LOCATION FROM API", latLng.toString())
-
-        }
-        else Log.i("READABLE?", "NOT READABLE!!!!!")
-    }
-
 
     fun onConfirmed(view: View) {
-        importanceCount?.value = 0
-        val pothole = PotholeModel(potholeLocation?.value, currentUser, importanceCount?.value)
+        importanceCount.value = 0
+        val pothole = PotholeModel(potholeLocation.value, currentUser, importanceCount.value,iconPath.value)
         mapAttributes.postValue(pothole)
     }
 }
